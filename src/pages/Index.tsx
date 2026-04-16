@@ -4,42 +4,56 @@ import Icon from '@/components/ui/icon';
 // --- Данные ---
 const NAV_LINKS = ['Главная', 'Мониторинг', 'Тарифы', 'FAQ', 'Контакты'];
 
-const RATES_DATA = [
-  { bank: 'Сбербанк', type: 'Вклад 1 год', rate: '16.50%', change: '+0.25%', up: true, updated: '2 мин назад' },
-  { bank: 'ВТБ', type: 'Ипотека', rate: '10.40%', change: '-0.10%', up: false, updated: '5 мин назад' },
-  { bank: 'Альфа-Банк', type: 'Потреб. кредит', rate: '22.30%', change: '+1.50%', up: true, updated: '12 мин назад' },
-  { bank: 'Тинькофф', type: 'Вклад 6 мес.', rate: '15.80%', change: '0.00%', up: null, updated: '1 час назад' },
-  { bank: 'Газпромбанк', type: 'Ипотека', rate: '11.20%', change: '-0.30%', up: false, updated: '3 мин назад' },
-  { bank: 'Россельхоз', type: 'Вклад 3 мес.', rate: '14.90%', change: '+0.50%', up: true, updated: '20 мин назад' },
+type RateRow = {
+  bank: string;
+  plan: string;
+  product: string;
+  abonent: string;
+  acquiring: string | null;
+  salary: string | null;
+  change: string;
+  up: boolean | null;
+  updated: string;
+};
+
+const RATES_DATA: RateRow[] = [
+  { bank: 'Сбербанк', plan: 'Лёгкий старт', product: 'РКО', abonent: '0 ₽/мес', acquiring: '1.8%', salary: '0 ₽', change: 'Новый', up: null, updated: '2 мин назад' },
+  { bank: 'Т-Банк', plan: 'Простой', product: 'РКО', abonent: '490 ₽/мес', acquiring: '1.59%', salary: 'бесплатно', change: '-0.1%', up: false, updated: '5 мин назад' },
+  { bank: 'Альфа-Банк', plan: 'Бизнес Старт', product: 'РКО', abonent: '0 ₽/мес', acquiring: '2.0%', salary: '0 ₽', change: '+0.2%', up: true, updated: '18 мин назад' },
+  { bank: 'ВТБ', plan: 'Стартовый', product: 'РКО', abonent: '0 ₽/мес', acquiring: '1.9%', salary: '0 ₽', change: '—', up: null, updated: '1 час назад' },
+  { bank: 'Газпромбанк', plan: 'Базовый', product: 'РКО', abonent: '0 ₽/мес', acquiring: '1.7%', salary: '500 ₽', change: '-0.2%', up: false, updated: '3 мин назад' },
+  { bank: 'Открытие', plan: 'Простой', product: 'РКО', abonent: '0 ₽/мес', acquiring: '1.8%', salary: 'бесплатно', change: '+0.1%', up: true, updated: '30 мин назад' },
+  { bank: 'МСП Банк', plan: 'МСБ', product: 'РКО', abonent: '0 ₽/мес', acquiring: '1.6%', salary: '0 ₽', change: 'Новый', up: null, updated: '10 мин назад' },
+  { bank: 'Промсвязь', plan: 'Бизнес 360', product: 'РКО', abonent: '790 ₽/мес', acquiring: '1.5%', salary: 'бесплатно', change: '+0.3%', up: true, updated: '45 мин назад' },
 ];
 
 const TICKER_ITEMS = [
-  { label: 'USD/RUB', value: '89.42', up: false },
-  { label: 'EUR/RUB', value: '97.18', up: true },
-  { label: 'Ключевая ставка', value: '21.00%', up: false },
-  { label: 'Инфляция', value: '9.3%', up: true },
-  { label: 'Сбербанк вклад', value: '16.5%', up: true },
-  { label: 'ВТБ ипотека', value: '10.4%', up: false },
-  { label: 'ММВБ', value: '3 241.5', up: true },
-  { label: 'Золото', value: '8 942 ₽/г', up: true },
+  { label: 'Ключевая ставка ЦБ', value: '21.00%', up: false },
+  { label: 'Т-Банк эквайринг', value: '1.59%', up: false },
+  { label: 'Сбер РКО', value: '0 ₽/мес', up: true },
+  { label: 'Альфа зарплатный', value: '0 ₽', up: true },
+  { label: 'ВТБ эквайринг', value: '1.90%', up: false },
+  { label: 'Газпром абонент', value: '0 ₽/мес', up: true },
+  { label: 'Открытие эквайринг', value: '1.80%', up: false },
+  { label: 'Промсвязь РКО', value: '790 ₽/мес', up: false },
 ];
 
 const PLANS = [
   {
-    name: 'Базовый',
+    name: 'Старт',
     price: '490',
     period: '/мес',
-    desc: 'Для частных инвесторов',
-    features: ['До 10 банков', '3 email-уведомления в день', 'Еженедельный отчёт', 'Вклады и ипотека'],
+    desc: 'Для ИП и малого бизнеса',
+    features: ['До 15 банков', 'Мониторинг РКО и эквайринга', '3 уведомления в день', 'Еженедельный дайджест', 'Сравнение тарифов'],
     cta: 'Попробовать бесплатно',
     highlight: false,
   },
   {
-    name: 'Профи',
-    price: '1 290',
+    name: 'Бизнес',
+    price: '1 490',
     period: '/мес',
-    desc: 'Для активных пользователей',
-    features: ['До 50 банков', 'Мгновенные уведомления', 'Ежедневный отчёт', 'Все типы тарифов', 'API доступ', 'Telegram-бот'],
+    desc: 'Для растущих компаний',
+    features: ['До 50 банков', 'РКО, эквайринг, зарплатный', 'Мгновенные уведомления', 'Ежедневный отчёт PDF', 'Telegram-бот', 'API доступ'],
     cta: 'Выбрать тариф',
     highlight: true,
   },
@@ -47,8 +61,8 @@ const PLANS = [
     name: 'Корпоративный',
     price: '4 900',
     period: '/мес',
-    desc: 'Для бизнеса и команд',
-    features: ['Все банки России', 'Уведомления без лимита', 'Выгрузка в Excel/PDF', 'До 10 пользователей', 'Приоритетная поддержка', 'White-label решение'],
+    desc: 'Для бухгалтеров и CFO',
+    features: ['Все банки России', 'Все продукты РКО', 'Мультипользователь (10 чел.)', 'White-label отчёты', 'Выгрузка Excel/Google Sheets', 'Приоритетная поддержка'],
     cta: 'Связаться с нами',
     highlight: false,
   },
@@ -56,20 +70,20 @@ const PLANS = [
 
 const FAQ_ITEMS = [
   {
-    q: 'Как быстро приходят уведомления?',
-    a: 'Система мониторит изменения тарифов каждые 15 минут. При обнаружении изменения email-уведомление приходит в течение 1–2 минут.',
+    q: 'Какие продукты отслеживаются в рамках РКО?',
+    a: 'Мы мониторим полный пакет РКО: абонентскую плату, стоимость платёжных поручений, эквайринг (торговый и интернет), зарплатный проект, кассовое обслуживание и бизнес-карты.',
   },
   {
-    q: 'Какие банки поддерживаются?',
-    a: 'На тарифе "Профи" — 50 крупнейших банков России включая Сбербанк, ВТБ, Альфа, Тинькофф, Газпромбанк. На корпоративном — все лицензированные банки.',
+    q: 'Как быстро приходят уведомления об изменении тарифа?',
+    a: 'Система проверяет тарифы банков каждые 15 минут. При обнаружении изменения email-уведомление приходит в течение 1–2 минут.',
   },
   {
-    q: 'Можно ли настроить фильтры уведомлений?',
-    a: 'Да, вы можете настроить уведомления по конкретным банкам, типам продуктов (вклады, ипотека, кредиты) и порогу изменения ставки.',
+    q: 'Сколько банков отслеживается?',
+    a: 'На тарифе "Бизнес" — 50 крупнейших банков, включая Сбер, Т-Банк, Альфа, ВТБ, Газпромбанк, Открытие, Промсвязьбанк и другие. На корпоративном — все банки с лицензией на РКО.',
   },
   {
-    q: 'Есть ли мобильное приложение?',
-    a: 'Сайт полностью адаптирован для мобильных устройств. Также доступен Telegram-бот для пользователей тарифа "Профи" и выше.',
+    q: 'Можно ли сравнивать тарифы между банками?',
+    a: 'Да, в разделе мониторинга есть встроенный сравнительный режим — можно выбрать до 5 банков и сравнить по любому параметру: абонентка, эквайринг, зарплатный.',
   },
   {
     q: 'Как отменить подписку?',
@@ -78,8 +92,8 @@ const FAQ_ITEMS = [
 ];
 
 const STATS = [
-  { value: '127', suffix: '+', label: 'банков в базе' },
-  { value: '50', suffix: 'K+', label: 'подписчиков' },
+  { value: '87', suffix: '+', label: 'банков в базе' },
+  { value: '12', suffix: 'K+', label: 'бизнесов следят' },
   { value: '99.8', suffix: '%', label: 'точность данных' },
   { value: '15', suffix: 'мин', label: 'интервал проверки' },
 ];
@@ -244,20 +258,20 @@ function HeroSection() {
         <div className="max-w-4xl">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-card border mb-8 animate-fade-up delay-100">
             <div className="pulse-dot" />
-            <span className="text-xs font-medium text-muted-foreground">Мониторинг в реальном времени</span>
+            <span className="text-xs font-medium text-muted-foreground">Мониторинг тарифов РКО в реальном времени</span>
           </div>
 
           <h1 className="font-display font-bold text-5xl md:text-7xl leading-[1.05] mb-6 animate-fade-up delay-200">
-            Следи за тарифами.
+            Лучшее РКО
             <br />
-            <span className="text-gradient">Первым узнавай</span>
+            <span className="text-gradient">для вашего бизнеса.</span>
             <br />
-            об изменениях.
+            Первым узнавай.
           </h1>
 
           <p className="text-lg md:text-xl text-muted-foreground max-w-xl leading-relaxed mb-10 animate-fade-up delay-300">
-            Автоматически отслеживаем ставки 127+ банков России. Мгновенные email-уведомления,
-            когда тарифы меняются в вашу пользу.
+            Отслеживаем тарифы РКО, эквайринга и зарплатного проекта в 87+ банках. 
+            Email-уведомление — когда условия меняются.
           </p>
 
           <div className="flex flex-wrap gap-4 animate-fade-up delay-400">
@@ -302,16 +316,15 @@ function HeroSection() {
   );
 }
 
-function MonitoringSection() {
-  const [filter, setFilter] = useState('Все');
-  const filters = ['Все', 'Вклады', 'Ипотека', 'Кредиты'];
+const PRODUCT_ICONS: Record<string, string> = {
+  'РКО': 'Building2',
+  'Эквайринг': 'CreditCard',
+  'Зарплатный': 'Users',
+};
 
-  const filtered = filter === 'Все' ? RATES_DATA : RATES_DATA.filter(r => {
-    if (filter === 'Вклады') return r.type.includes('Вклад');
-    if (filter === 'Ипотека') return r.type.includes('Ипотека');
-    if (filter === 'Кредиты') return r.type.includes('кредит');
-    return true;
-  });
+function MonitoringSection() {
+  const [filter, setFilter] = useState('РКО');
+  const filters = ['РКО', 'Эквайринг', 'Зарплатный'];
 
   return (
     <section id="monitoring" className="py-28 relative overflow-hidden">
@@ -325,67 +338,147 @@ function MonitoringSection() {
               Мониторинг
             </span>
             <h2 className="font-display font-bold text-4xl md:text-5xl leading-tight">
-              Тарифы онлайн
+              Тарифы РКО онлайн
             </h2>
             <p className="text-muted-foreground mt-3 max-w-md">
-              Актуальные данные по ставкам банков. Обновляется каждые 15 минут.
+              Актуальные условия расчётно-кассового обслуживания. Обновляется каждые 15 минут.
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             {filters.map(f => (
               <button
                 key={f}
                 onClick={() => setFilter(f)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
                   filter === f ? 'btn-primary-gradient text-white' : 'glass-card hover:bg-white/10 text-muted-foreground'
                 }`}
               >
-                {f === filter ? <span>{f}</span> : f}
+                <Icon name={PRODUCT_ICONS[f]} size={14} className={filter === f ? 'relative z-10' : ''} />
+                {filter === f ? <span>{f}</span> : f}
               </button>
             ))}
           </div>
         </div>
 
-        <div className="glass-card rounded-2xl border overflow-hidden">
-          <div className="grid grid-cols-5 gap-4 px-6 py-4 border-b border-white/[0.06] text-xs text-muted-foreground font-semibold uppercase tracking-wider">
-            <span>Банк</span>
-            <span>Продукт</span>
-            <span className="text-right">Ставка</span>
-            <span className="text-right">Изменение</span>
-            <span className="text-right">Обновлено</span>
-          </div>
-
-          {filtered.map((row, i) => (
-            <div
-              key={i}
-              className={`grid grid-cols-5 gap-4 px-6 py-4 items-center transition-all hover:bg-white/[0.03] cursor-pointer ${
-                i < filtered.length - 1 ? 'border-b border-white/[0.04]' : ''
-              }`}
-            >
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg glass-card border flex items-center justify-center text-xs font-bold text-[#2D8FF4]">
-                  {row.bank.slice(0, 2)}
-                </div>
-                <span className="font-medium text-sm">{row.bank}</span>
-              </div>
-              <span className="text-sm text-muted-foreground">{row.type}</span>
-              <span className="font-mono font-bold text-lg text-right text-foreground">{row.rate}</span>
-              <div className="flex justify-end">
-                {row.up === null ? (
-                  <span className="text-xs px-2.5 py-1 rounded-full bg-white/5 text-muted-foreground border border-white/10">
-                    {row.change}
-                  </span>
-                ) : (
-                  <span className={`text-xs px-2.5 py-1 rounded-full flex items-center gap-1 ${row.up ? 'badge-up' : 'badge-down'}`}>
-                    <Icon name={row.up ? 'TrendingUp' : 'TrendingDown'} size={11} />
-                    {row.change}
-                  </span>
-                )}
-              </div>
-              <span className="text-xs text-muted-foreground text-right">{row.updated}</span>
+        {/* Таблица РКО */}
+        {filter === 'РКО' && (
+          <div className="glass-card rounded-2xl border overflow-hidden">
+            <div className="grid grid-cols-6 gap-3 px-6 py-4 border-b border-white/[0.06] text-xs text-muted-foreground font-semibold uppercase tracking-wider">
+              <span className="col-span-2">Банк / Тариф</span>
+              <span className="text-center">Абонентка</span>
+              <span className="text-center">Эквайринг</span>
+              <span className="text-center">Зарплатный</span>
+              <span className="text-right">Изменение</span>
             </div>
-          ))}
-        </div>
+            {RATES_DATA.map((row, i) => (
+              <div
+                key={i}
+                className={`grid grid-cols-6 gap-3 px-6 py-4 items-center transition-all hover:bg-white/[0.03] cursor-pointer ${
+                  i < RATES_DATA.length - 1 ? 'border-b border-white/[0.04]' : ''
+                }`}
+              >
+                <div className="col-span-2 flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl glass-card border flex items-center justify-center text-xs font-bold text-[#2D8FF4] flex-shrink-0">
+                    {row.bank.slice(0, 2)}
+                  </div>
+                  <div>
+                    <p className="font-semibold text-sm">{row.bank}</p>
+                    <p className="text-xs text-muted-foreground">{row.plan}</p>
+                  </div>
+                </div>
+                <span className="font-mono font-bold text-sm text-center text-foreground">{row.abonent}</span>
+                <span className="font-mono font-bold text-sm text-center text-[#0ECAD4]">
+                  {row.acquiring ?? '—'}
+                </span>
+                <span className="font-mono text-sm text-center text-muted-foreground">
+                  {row.salary ?? '—'}
+                </span>
+                <div className="flex justify-end">
+                  {row.up === null ? (
+                    <span className="text-xs px-2.5 py-1 rounded-full bg-white/5 text-muted-foreground border border-white/10">
+                      {row.change}
+                    </span>
+                  ) : (
+                    <span className={`text-xs px-2.5 py-1 rounded-full flex items-center gap-1 ${row.up ? 'badge-up' : 'badge-down'}`}>
+                      <Icon name={row.up ? 'TrendingUp' : 'TrendingDown'} size={11} />
+                      {row.change}
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Таблица Эквайринг */}
+        {filter === 'Эквайринг' && (
+          <div className="glass-card rounded-2xl border overflow-hidden">
+            <div className="grid grid-cols-5 gap-3 px-6 py-4 border-b border-white/[0.06] text-xs text-muted-foreground font-semibold uppercase tracking-wider">
+              <span className="col-span-2">Банк / Тариф</span>
+              <span className="text-center">Торговый</span>
+              <span className="text-center">Интернет</span>
+              <span className="text-right">Обновлено</span>
+            </div>
+            {[
+              { bank: 'Т-Банк', plan: 'Простой', trade: '1.59%', online: '2.19%', updated: '5 мин назад' },
+              { bank: 'Сбербанк', plan: 'Лёгкий старт', trade: '1.80%', online: '2.50%', updated: '2 мин назад' },
+              { bank: 'Альфа-Банк', plan: 'Бизнес Старт', trade: '2.00%', online: '2.70%', updated: '18 мин назад' },
+              { bank: 'ВТБ', plan: 'Стартовый', trade: '1.90%', online: '2.40%', updated: '1 час назад' },
+              { bank: 'Газпромбанк', plan: 'Базовый', trade: '1.70%', online: '2.30%', updated: '3 мин назад' },
+              { bank: 'Открытие', plan: 'Простой', trade: '1.80%', online: '2.20%', updated: '30 мин назад' },
+            ].map((row, i, arr) => (
+              <div key={i} className={`grid grid-cols-5 gap-3 px-6 py-4 items-center hover:bg-white/[0.03] cursor-pointer transition-all ${i < arr.length - 1 ? 'border-b border-white/[0.04]' : ''}`}>
+                <div className="col-span-2 flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl glass-card border flex items-center justify-center text-xs font-bold text-[#2D8FF4] flex-shrink-0">
+                    {row.bank.slice(0, 2)}
+                  </div>
+                  <div>
+                    <p className="font-semibold text-sm">{row.bank}</p>
+                    <p className="text-xs text-muted-foreground">{row.plan}</p>
+                  </div>
+                </div>
+                <span className="font-mono font-bold text-sm text-center text-[#0ECAD4]">{row.trade}</span>
+                <span className="font-mono font-bold text-sm text-center text-foreground">{row.online}</span>
+                <span className="text-xs text-muted-foreground text-right">{row.updated}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Таблица Зарплатный проект */}
+        {filter === 'Зарплатный' && (
+          <div className="glass-card rounded-2xl border overflow-hidden">
+            <div className="grid grid-cols-5 gap-3 px-6 py-4 border-b border-white/[0.06] text-xs text-muted-foreground font-semibold uppercase tracking-wider">
+              <span className="col-span-2">Банк / Тариф</span>
+              <span className="text-center">Обслуживание</span>
+              <span className="text-center">Перевод ЗП</span>
+              <span className="text-right">Обновлено</span>
+            </div>
+            {[
+              { bank: 'Т-Банк', plan: 'Простой', service: 'Бесплатно', transfer: '0 ₽', updated: '5 мин назад' },
+              { bank: 'Сбербанк', plan: 'Лёгкий старт', service: 'Бесплатно', transfer: '0 ₽', updated: '2 мин назад' },
+              { bank: 'Альфа-Банк', plan: 'Бизнес Старт', service: 'Бесплатно', transfer: '0 ₽', updated: '18 мин назад' },
+              { bank: 'ВТБ', plan: 'Стартовый', service: 'Бесплатно', transfer: '0 ₽', updated: '1 час назад' },
+              { bank: 'Газпромбанк', plan: 'Базовый', service: '500 ₽/мес', transfer: '15 ₽/чел', updated: '3 мин назад' },
+              { bank: 'Промсвязь', plan: 'Бизнес 360', service: 'Бесплатно', transfer: '0 ₽', updated: '45 мин назад' },
+            ].map((row, i, arr) => (
+              <div key={i} className={`grid grid-cols-5 gap-3 px-6 py-4 items-center hover:bg-white/[0.03] cursor-pointer transition-all ${i < arr.length - 1 ? 'border-b border-white/[0.04]' : ''}`}>
+                <div className="col-span-2 flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl glass-card border flex items-center justify-center text-xs font-bold text-[#2D8FF4] flex-shrink-0">
+                    {row.bank.slice(0, 2)}
+                  </div>
+                  <div>
+                    <p className="font-semibold text-sm">{row.bank}</p>
+                    <p className="text-xs text-muted-foreground">{row.plan}</p>
+                  </div>
+                </div>
+                <span className="font-mono text-sm text-center text-emerald-400">{row.service}</span>
+                <span className="font-mono font-bold text-sm text-center text-foreground">{row.transfer}</span>
+                <span className="text-xs text-muted-foreground text-right">{row.updated}</span>
+              </div>
+            ))}
+          </div>
+        )}
 
         <div className="flex items-center justify-between mt-6">
           <p className="text-xs text-muted-foreground flex items-center gap-2">
@@ -535,12 +628,17 @@ function FAQSection() {
 function ContactsSection() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
-  const [selectedBanks, setSelectedBanks] = useState<string[]>([]);
+  const [selectedProducts, setSelectedProducts] = useState<string[]>(['РКО']);
 
-  const banks = ['Сбербанк', 'ВТБ', 'Альфа-Банк', 'Тинькофф', 'Газпромбанк', 'Россельхоз'];
+  const products = [
+    { id: 'РКО', icon: 'Building2', desc: 'Расчётный счёт и обслуживание' },
+    { id: 'Эквайринг', icon: 'CreditCard', desc: 'Торговый и интернет' },
+    { id: 'Зарплатный', icon: 'Users', desc: 'Зарплатный проект' },
+    { id: 'Кассовое', icon: 'Banknote', desc: 'Кассовое обслуживание' },
+  ];
 
-  const toggleBank = (b: string) => {
-    setSelectedBanks(prev => prev.includes(b) ? prev.filter(x => x !== b) : [...prev, b]);
+  const toggleProduct = (p: string) => {
+    setSelectedProducts(prev => prev.includes(p) ? prev.filter(x => x !== p) : [...prev, p]);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -564,7 +662,7 @@ function ContactsSection() {
             Подключить уведомления
           </h2>
           <p className="text-muted-foreground mb-12">
-            Укажите email и выберите банки — начнёте получать уведомления сразу после подтверждения.
+            Укажите email и выберите продукты — будем присылать уведомления, когда тарифы изменятся.
           </p>
 
           {!submitted ? (
@@ -575,27 +673,31 @@ function ContactsSection() {
                   type="email"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  placeholder="your@email.com"
+                  placeholder="buh@company.ru"
                   required
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-[#2D8FF4]/50 transition-all"
                 />
               </div>
 
               <div className="mb-8">
-                <label className="block text-sm font-medium mb-3">Банки для мониторинга</label>
-                <div className="flex flex-wrap gap-2">
-                  {banks.map(b => (
+                <label className="block text-sm font-medium mb-3">Какие продукты отслеживать?</label>
+                <div className="grid grid-cols-2 gap-2">
+                  {products.map(p => (
                     <button
                       type="button"
-                      key={b}
-                      onClick={() => toggleBank(b)}
-                      className={`px-3.5 py-2 rounded-lg text-xs font-medium transition-all border ${
-                        selectedBanks.includes(b)
-                          ? 'bg-[#2D8FF4]/20 border-[#2D8FF4]/50 text-[#2D8FF4]'
+                      key={p.id}
+                      onClick={() => toggleProduct(p.id)}
+                      className={`flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all border ${
+                        selectedProducts.includes(p.id)
+                          ? 'bg-[#2D8FF4]/15 border-[#2D8FF4]/50 text-foreground'
                           : 'bg-white/5 border-white/10 text-muted-foreground hover:border-white/20'
                       }`}
                     >
-                      {b}
+                      <Icon name={p.icon} size={16} className={selectedProducts.includes(p.id) ? 'text-[#2D8FF4]' : ''} />
+                      <div>
+                        <p className={`text-xs font-semibold ${selectedProducts.includes(p.id) ? 'text-[#2D8FF4]' : ''}`}>{p.id}</p>
+                        <p className="text-xs text-muted-foreground">{p.desc}</p>
+                      </div>
                     </button>
                   ))}
                 </div>
