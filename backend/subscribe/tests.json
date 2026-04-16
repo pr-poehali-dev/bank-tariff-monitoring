@@ -1,0 +1,26 @@
+{
+  "tests": [
+    {
+      "name": "OPTIONS preflight",
+      "method": "OPTIONS",
+      "path": "/",
+      "expectedStatus": 200
+    },
+    {
+      "name": "POST без email — ошибка 400",
+      "method": "POST",
+      "path": "/",
+      "body": {"products": ["РКО"]},
+      "expectedStatus": 400
+    },
+    {
+      "name": "POST с корректным email — ждём отправку письма",
+      "method": "POST",
+      "path": "/",
+      "body": {"email": "test@example.com", "products": ["РКО", "Эквайринг"]},
+      "expectedStatus": 200,
+      "expectedBody": {"ok": true},
+      "bodyMatcher": "partial"
+    }
+  ]
+}

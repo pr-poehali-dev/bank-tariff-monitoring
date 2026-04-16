@@ -625,9 +625,13 @@ function FAQSection() {
   );
 }
 
+const SUBSCRIBE_URL = 'https://functions.poehali.dev/d6182651-9b7a-4808-855e-aefe7f3f5004';
+
 function ContactsSection() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const [selectedProducts, setSelectedProducts] = useState<string[]>(['РКО']);
 
   const products = [
@@ -641,9 +645,24 @@ function ContactsSection() {
     setSelectedProducts(prev => prev.includes(p) ? prev.filter(x => x !== p) : [...prev, p]);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) setSubmitted(true);
+    setError('');
+    setLoading(true);
+    try {
+      const res = await fetch(SUBSCRIBE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, products: selectedProducts }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Ошибка сервера');
+      setSubmitted(true);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Не удалось отправить запрос');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -703,9 +722,28 @@ function ContactsSection() {
                 </div>
               </div>
 
-              <button type="submit" className="btn-primary-gradient w-full py-4 rounded-xl font-semibold flex items-center justify-center gap-2">
-                <span>Подключить уведомления</span>
-                <Icon name="Bell" size={16} className="relative z-10" />
+              {error && (
+                <div className="mb-4 px-4 py-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-sm">
+                  {error}
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={loading || selectedProducts.length === 0}
+                className="btn-primary-gradient w-full py-4 rounded-xl font-semibold flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {loading ? (
+                  <>
+                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin relative z-10" />
+                    <span>Отправляем...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Подключить уведомления</span>
+                    <Icon name="Bell" size={16} className="relative z-10" />
+                  </>
+                )}
               </button>
 
               <p className="text-xs text-muted-foreground text-center mt-4">
